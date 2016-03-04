@@ -1,10 +1,10 @@
-.container {
-  padding-top: 25px;
+.container-body {
+  padding-top: 75px;
 }
 
 .init {
   animation-timing-function: linear;
-  animation: opa 4s;
+  animation: opa 3s;
   animation-fill-mode: forwards;
   visibility: visible;
   color: transparent;
@@ -48,4 +48,16 @@
     opacity: 0;
     visibility: hidden;
   }
+}
+
+.input-container {
+  width: 100%;
+}
+
+span.item-text {
+  margin-right: 10px;
+}
+
+div.item {
+   cursor: pointer;
 }
