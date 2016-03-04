@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{{title}}</title>
     <link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css">
     <link rel="stylesheet" href="/public/css/style.css">
@@ -9,8 +10,11 @@
     {{>navbar}}
     <div class="init">
       <div class="ui container" id="container-center">
-        {{{body}}}
+        <h1>{{title}}</h1>
        </div>
+    </div>
+    <div class="ui container">
+      {{{body}}}
     </div>
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="/semantic/semantic.min.js"></script>
