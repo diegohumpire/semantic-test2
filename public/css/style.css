@@ -61,3 +61,16 @@ span.item-text {
 div.item {
    cursor: pointer;
 }
+
+.container-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.item-flex-center {
+  display: inline-flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}

@@ -7,20 +7,24 @@ block content
         h4.ui.header Nueva Tarea
         form.ui.form
           .fields
-            .twelve.wide.field
+            .eight.wide.field
               label= 'Nombre'
-              input(type='text', placeholder='Ingrese la nueva Tarea')
-            .two.wide.field
+              input(type='text', placeholder='Ingrese la nueva Tarea', v-model='todo.task')
+            .three.wide.field
               label= 'Estado'
+              input(type='checkbox', style='display: none;', v-model='todo.state')
               a.ui.red.large.tag.label= 'Pendiente'
+            .four.wide.field.container-flex-center
+              input.ui.big.button.item-flex-center(type='button', value='Nuevo', v-on:click='newTodo(todo)')
+              input.ui.big.button.blue.item-flex-center(type='button', value='Guardar', v-on:click='saveTodo(todo)')
           .field
             label= 'Descripcion'
-            textarea
+            textarea(v-model='todo.text')
     
     .todos.ui.piled.segment
       h4.ui.header.= 'Pendientes'
       .ui.relaxed.aligned.animated.divided.list
-        .item(v-for="todo in todos | filterBy false in 'state'")
+        .item(v-for="todo in todos | filterBy false in 'state' | orderBy 'id' -1")
           img.ui.avatar.image(src='/public/images/ninja-simple.png')
           .middle.aligned.content
             .header 
@@ -28,15 +32,15 @@ block content
             span.item-text {{ todo.text }}
             a.ui.red.small.tag.label= 'Pendiente'
           .right.floated.content
-            button.ui.large.icon.blue.basic.button
+            button.ui.large.icon.blue.button(v-on:click='editTodo(todo)')
               i.write.icon
-            button.ui.large.icon.green.basic.button
+            button.ui.large.icon.green.button(v-on:click='doneTodo(todo)')
               i.checkmark.icon
             
     .todos.ui.piled.segment
       h4.ui.header.= 'Realizadas'
       .ui.relaxed.aligned.animated.divided.list
-        .item(v-for="todo in todos | filterBy true in 'state'")
+        .item(v-for="todo in todos | filterBy true in 'state' | orderBy 'id' -1")
           img.ui.avatar.image(src='/public/images/ninja-simple.png')
           .middle.aligned.content
             .header 
@@ -44,5 +48,5 @@ block content
             span.item-text {{ todo.text }}
             a.ui.green.tag.label= 'Hecho'
           .right.floated.content
-            button.ui.large.icon.yellow.basic.button
+            button.ui.large.icon.yellow.button(v-on:click="reverseTodo(todo)")
               i.undo.icon
