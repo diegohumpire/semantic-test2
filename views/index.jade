@@ -9,7 +9,7 @@ block content
           .fields
             .eight.wide.field
               label= 'Nombre'
-              input(type='text', placeholder='Ingrese la nueva Tarea', v-model='todo.task')
+              input(type='text', placeholder='Ingrese la nueva Tarea', v-model='todo.title')
             .three.wide.field
               label= 'Estado'
               input(type='checkbox', style='display: none;', v-model='todo.state')
@@ -19,7 +19,7 @@ block content
               input.ui.big.button.blue.item-flex-center(type='button', value='Guardar', v-on:click='saveTodo(todo)')
           .field
             label= 'Descripcion'
-            textarea(v-model='todo.text')
+            textarea(v-model='todo.description')
     
     .todos.ui.piled.segment
       h4.ui.header.= 'Pendientes'

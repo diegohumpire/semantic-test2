@@ -1,8 +1,8 @@
 var todosList = [
-  { id:'1', task: 'Task #1', state: false, text: 'Descripcion de la Tarea' },
-  { id:'2', task: 'Task #2', state: false, text: 'Descripcion de la Tarea' },
-  { id:'3', task: 'Task #3', state: true, text: 'Descripcion de la Tarea' },
-  { id:'4', task: 'Task #4', state: false, text: 'Descripcion de la Tarea' }
+  { id:'1', title: 'Task #1', state: false, description: 'Descripcion de la Tarea' },
+  { id:'2', title: 'Task #2', state: false, description: 'Descripcion de la Tarea' },
+  { id:'3', title: 'Task #3', state: true, description: 'Descripcion de la Tarea' },
+  { id:'4', title: 'Task #4', state: false, description: 'Descripcion de la Tarea' }
 ];
 
 var newTodoObj = function(props) {
@@ -11,14 +11,14 @@ var newTodoObj = function(props) {
   
   if(typeof props == "undefined") {
     todo.id = 0;
-    todo.task = '';
+    todo.title = '';
     todo.state = false;
-    todo.text = '';  
+    todo.description = '';  
   } else {
     todo.id = props.id;
-    todo.task = props.task;
+    todo.title = props.title;
     todo.state = props.state;
-    todo.text = props.text;
+    todo.description = props.description;
   }
   
   return todo;
