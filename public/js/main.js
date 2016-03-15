@@ -6,22 +6,11 @@ var todosList = [
 ];
 
 var newTodoObj = function(props) {
-  
-  var todo = {};
-  
-  if(typeof props == "undefined") {
-    todo.id = 0;
-    todo.title = '';
-    todo.state = false;
-    todo.description = '';  
-  } else {
-    todo.id = props.id;
-    todo.title = props.title;
-    todo.state = props.state;
-    todo.description = props.description;
-  }
-  
-  return todo;
+  var todo = props || {};
+  this.id = todo.id || 0;
+  this.title = todo.title || '';
+  this.state = todo.state || false;
+  this.description = todo.description || '';
 };
 
 new Vue({
