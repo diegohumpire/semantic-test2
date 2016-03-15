@@ -28,8 +28,8 @@ block content
           img.ui.avatar.image(src='/public/images/ninja-simple.png')
           .middle.aligned.content
             .header 
-              {{ todo.task }}
-            span.item-text {{ todo.text }}
+              {{ todo.title }}
+            span.item-text {{ todo.description }}
             a.ui.red.small.tag.label= 'Pendiente'
           .right.floated.content
             button.ui.large.icon.blue.button(v-on:click='editTodo(todo)')
@@ -44,8 +44,8 @@ block content
           img.ui.avatar.image(src='/public/images/ninja-simple.png')
           .middle.aligned.content
             .header 
-              {{ todo.task }}
-            span.item-text {{ todo.text }}
+              {{ todo.title }}
+            span.item-text {{ todo.description }}
             a.ui.green.tag.label= 'Hecho'
           .right.floated.content
             button.ui.large.icon.yellow.button(v-on:click="reverseTodo(todo)")
