@@ -1,0 +1,74 @@
+<%- include('./layouts/header.html') -%>
+<div class="ui container container-body">
+  <div id="app">
+    <div class="ui piled segment">
+      <div class="ui container">
+        <h4 class="ui header">Nueva Tarea</h4>
+        <validator name="validation1">
+          <form novalidate="novalidate" class="ui form">
+            <div class="fields">
+              <div class="eight wide field">
+                <label>Nombre</label>
+                <input type="text" placeholder="Ingrese la nueva Tarea" \="\" v-model="todo.title" tabindex="1" v-validate:todo.title="{ required: true }"/>
+              </div>
+              <div class="three wide field">
+                <label>Estado</label>
+                <input type="checkbox" style="display: none;" v-model="todo.state"/>
+                <div class="ui left pointing red basic label">Pendiente</div>
+              </div>
+              <div class="four wide field container-flex-center">
+                <input type="button" value="Nuevo" \="\" v-on:click="newTodo(todo)" class="ui big button basic item-flex-center"/>
+                <input type="button" value="Guardar" \="\" v-on:click="saveTodo(todo)" class="ui big button green item-flex-center"/>
+              </div>
+            </div>
+            <div class="field">
+              <label>Descripcion</label>
+              <textarea v-model="todo.description" tabindex="2" required="required"></textarea>
+            </div>
+          </form>
+        </validator>
+      </div>
+    </div>
+    <div class="todos ui piled segment">
+      <h4 class="ui header">Pendientes</h4>
+      <div class="ui relaxed aligned animated divided list">
+        <div v-for="todo in todos | filterBy false in 'state' | orderBy 'id' -1" v-on:click="editTodo(todo)" class="item"><img src="/public/images/ninja-simple.png" class="ui avatar image"/>
+          <div class="middle aligned content">
+            <div class="header">
+              
+              {{ todo.title }}
+            </div><span class="item-text">
+              
+              {{ todo.description }}</span>
+          </div>
+          <div class="ui left pointing red basic label">Pendiente</div>
+          <div class="right floated content">
+            <button v-on:click="removeTodo(todo)" class="ui large icon red basic button"><i class="minus circle icon"></i></button>
+            <button v-on:click="editTodo(todo)" class="ui large icon teal basic button"><i class="write icon"></i></button>
+            <button v-on:click="doneTodo(todo)" class="ui large icon green basic button"><i class="checkmark icon"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="todos ui piled segment">
+      <h4 class="ui header">Realizadas</h4>
+      <div class="ui relaxed aligned animated divided list">
+        <div v-for="todo in todos | filterBy true in 'state' | orderBy 'id' -1" class="item"><img src="/public/images/ninja-simple.png" class="ui avatar image"/>
+          <div class="middle aligned content">
+            <div class="header">
+              
+              {{ todo.title }}
+            </div><span class="item-text">
+              
+              {{ todo.description }}</span>
+          </div>
+          <div class="ui left pointing green basic label">Hecho</div>
+          <div class="right floated content">
+            <button v-on:click="reverseTodo(todo)" class="ui large icon olive basic button"><i class="undo icon"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('./layouts/footer.html') -%>

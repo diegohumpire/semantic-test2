@@ -5,28 +5,30 @@ block content
         .ui.piled.segment
             .ui.container
                 h4.ui.header Nueva Tarea
-                form.ui.form
-                    .fields
-                        .eight.wide.field
-                            label= 'Nombre'
-                            input(type='text', placeholder='Ingrese la nueva Tarea', v-model='todo.title')
-                        .three.wide.field
-                            label= 'Estado'
-                            input(type='checkbox', style='display: none;', v-model='todo.state')
-                            .ui.left.pointing.red.basic.label= 'Pendiente'
-                        .four.wide.field.container-flex-center
-                            input.ui.big.button.basic.item-flex-center(type='button', value='Nuevo', \ 
-                            v-on:click='newTodo(todo)')
-                            input.ui.big.button.teal.item-flex-center(type='button', value='Guardar', \
-                            v-on:click='saveTodo(todo)')
-                    .field
-                        label= 'Descripcion'
-                        textarea(v-model='todo.description')
+                validator(name="validation")
+                    form.ui.form(novalidate)
+                      .fields
+                          .eight.wide.field
+                              label= 'Nombre'
+                              input(type='text', placeholder='Ingrese la nueva Tarea', \
+                                v-model='todo.title', tabindex=1, v-validate:todo.title='{ required: true }')
+                          .three.wide.field
+                              label= 'Estado'
+                              input(type='checkbox', style='display: none;', v-model='todo.state')
+                              .ui.left.pointing.red.basic.label= 'Pendiente'
+                          .four.wide.field.container-flex-center
+                              input.ui.big.button.basic.item-flex-center(type='button', value='Nuevo', \ 
+                                v-on:click='newTodo(todo)')
+                              input.ui.big.button.green.item-flex-center(type='button', value='Guardar', \
+                                v-on:click='saveTodo(todo)')
+                      .field
+                          label= 'Descripcion'
+                          textarea(v-model='todo.description', tabindex=2, required)
     
         .todos.ui.piled.segment
             h4.ui.header.= 'Pendientes'
             .ui.relaxed.aligned.animated.divided.list
-                .item(v-for="todo in todos | filterBy false in 'state' | orderBy 'id' -1")
+                .item(v-for="todo in todos | filterBy false in 'state' | orderBy 'id' -1", v-on:click='editTodo(todo)')
                     img.ui.avatar.image(src='/public/images/ninja-simple.png')
                     .middle.aligned.content
                         .header 
@@ -35,6 +37,8 @@ block content
                             {{ todo.description }}
                     .ui.left.pointing.red.basic.label= 'Pendiente'
                     .right.floated.content
+                        button.ui.large.icon.red.basic.button(v-on:click='removeTodo(todo)')
+                            i.minus.circle.icon
                         button.ui.large.icon.teal.basic.button(v-on:click='editTodo(todo)')
                             i.write.icon
                         button.ui.large.icon.green.basic.button(v-on:click='doneTodo(todo)')

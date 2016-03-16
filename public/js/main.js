@@ -13,6 +13,19 @@ var newTodoObj = function(props) {
   this.description = todo.description || '';
 };
 
+var getById = function(arrayObj, id) {
+  var objFilter = arrayObj.filter(function(obj) {
+    return obj.id == id;
+  });
+  var index = arrayObj.indexOf(objFilter[0]);
+  
+  return index;
+};
+
+var isEmpty = function(obj) {
+  return obj.id === 0 ? true : false;
+};
+
 new Vue({
   el: '#app',
   data: {
@@ -38,13 +51,13 @@ new Vue({
         todo.id = this.todos.length + 1;
         this.todos.push(todo);
       } else {
-        var todoOld = this.todos.filter(function(obj) {
-          return obj.id == todo.id;
-        });
-        var index = this.todos.indexOf(todoOld[0]);
+        var index = getById(this.todos, todo.id);
         this.todos.$set(index, todo);
       }
       this.todo = new newTodoObj();  
+    },
+    removeTodo: function(todo) {
+      this.todos.$remove(todo);
     }
   }
 });
