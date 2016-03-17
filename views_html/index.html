@@ -1,15 +1,16 @@
 <%- include('./layouts/header.html') -%>
+
 <div class="ui container container-body">
   <div id="app">
     <div class="ui piled segment">
       <div class="ui container">
         <h4 class="ui header">Nueva Tarea</h4>
-        <validator name="validation1">
+        <validator name="validation">
           <form novalidate="novalidate" class="ui form">
             <div class="fields">
               <div class="eight wide field">
                 <label>Nombre</label>
-                <input type="text" placeholder="Ingrese la nueva Tarea" \="\" v-model="todo.title" tabindex="1" v-validate:todo.title="{ required: true }"/>
+                <input type="text" placeholder="Ingrese la nueva Tarea" v-model="todo.title" tabindex="1" v-validate:todo.title="[ 'required' ]"/>
               </div>
               <div class="three wide field">
                 <label>Estado</label>
@@ -17,8 +18,8 @@
                 <div class="ui left pointing red basic label">Pendiente</div>
               </div>
               <div class="four wide field container-flex-center">
-                <input type="button" value="Nuevo" \="\" v-on:click="newTodo(todo)" class="ui big button basic item-flex-center"/>
-                <input type="button" value="Guardar" \="\" v-on:click="saveTodo(todo)" class="ui big button green item-flex-center"/>
+                <input type="button" value="Nuevo" v-on:click="newTodo(todo)" class="ui big button basic item-flex-center"/>
+                <input type="button" value="Guardar" v-on:click="saveTodo(todo)" class="ui big button green item-flex-center"/>
               </div>
             </div>
             <div class="field">
@@ -71,4 +72,5 @@
     </div>
   </div>
 </div>
+
 <%- include('./layouts/footer.html') -%>
