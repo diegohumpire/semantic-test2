@@ -26,11 +26,16 @@ var isEmpty = function(obj) {
   return obj.id === 0 ? true : false;
 };
 
-new Vue({
+var vm = new Vue({
   el: '#app',
   data: {
     todos: todosList,
     todo: new newTodoObj()
+  },
+  computed: {
+    validation: function() {
+      return this.$validationTodo.valid;
+    }
   },
   methods: {
     doneTodo: function(todo) {
@@ -47,14 +52,19 @@ new Vue({
       this.todo = new newTodoObj();
     },
     saveTodo: function(todo) {
-      if(todo.id === 0) {
-        todo.id = this.todos.length + 1;
-        this.todos.push(todo);
-      } else {
-        var index = getById(this.todos, todo.id);
-        this.todos.$set(index, todo);
+      var isValid = this.$validationTodo.valid;
+      
+      if (isValid) {
+        if(todo.id === 0) {
+          todo.id = this.todos.length + 1;
+          this.todos.push(todo);
+        } else {
+          var index = getById(this.todos, todo.id);
+          this.todos.$set(index, todo);
+        }
+        this.todo = new newTodoObj();  
       }
-      this.todo = new newTodoObj();  
+      
     },
     removeTodo: function(todo) {
       this.todos.$remove(todo);

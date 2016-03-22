@@ -4,13 +4,21 @@
   <div id="app">
     <div class="ui piled segment">
       <div class="ui container">
-        <h4 class="ui header">Nueva Tarea</h4>
-        <validator name="validation">
-          <form novalidate="novalidate" class="ui form">
+        <validator name="validationTodo">
+          <h4 class="ui header">Nueva Tarea</h4>
+          <div>
+            <p v-if="$validationTodo.title.required">El titulo es requerido</p>
+            <p v-if="$validationTodo.title.minlength">El titulo debe de tener minimo 8 caracteres</p>
+          </div>
+          <form class="ui form" novalidate>
             <div class="fields">
-              <div class="eight wide field">
+              <div class="eight wide field" v-bind:class="{ 'error' : !validation }">
                 <label>Nombre</label>
-                <input type="text" placeholder="Ingrese la nueva Tarea" v-model="todo.title" tabindex="1" v-validate:todo.title="[ 'required' ]"/>
+                <input type="text" 
+                       placeholder="Ingrese la nueva Tarea" 
+                       tabindex="1" 
+                       v-model="todo.title"
+                       v-validate:title="{ required: true, minlength: 8 }"/>
               </div>
               <div class="three wide field">
                 <label>Estado</label>
