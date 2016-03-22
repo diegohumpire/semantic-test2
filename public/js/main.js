@@ -43,6 +43,7 @@ var vm = new Vue({
   methods: {
     doneTodo: function(todo) {
       todo.state = true;
+      this.todo = new newTodoObj();
     },
     reverseTodo: function(todo) {
       todo.state = false;
