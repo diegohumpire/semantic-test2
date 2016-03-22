@@ -34,7 +34,10 @@ var vm = new Vue({
   },
   computed: {
     validation: function() {
-      return this.$validationTodo.valid;
+      return {
+        title: this.$validationTodo.title.touched ? this.$validationTodo.title.valid : true,
+        description: this.$validationTodo.description.touched ? this.$validationTodo.description.valid : true
+      };
     }
   },
   methods: {

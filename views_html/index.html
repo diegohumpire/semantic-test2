@@ -6,19 +6,20 @@
       <div class="ui container">
         <validator name="validationTodo">
           <h4 class="ui header">Nueva Tarea</h4>
-          <div>
+          <!--<div>
             <p v-if="$validationTodo.title.required">El titulo es requerido</p>
             <p v-if="$validationTodo.title.minlength">El titulo debe de tener minimo 8 caracteres</p>
-          </div>
+          </div>-->
           <form class="ui form" novalidate>
             <div class="fields">
-              <div class="eight wide field" v-bind:class="{ 'error' : !validation }">
+              <div class="eight wide field" v-bind:class="{ 'error' : !validation.title }">
                 <label>Nombre</label>
                 <input type="text" 
+                       inital="off"
                        placeholder="Ingrese la nueva Tarea" 
                        tabindex="1" 
                        v-model="todo.title"
-                       v-validate:title="{ required: true, minlength: 8 }"/>
+                       v-validate:title="{ required: true }"/>
               </div>
               <div class="three wide field">
                 <label>Estado</label>
@@ -30,9 +31,14 @@
                 <input type="button" value="Guardar" v-on:click="saveTodo(todo)" class="ui big button green item-flex-center"/>
               </div>
             </div>
-            <div class="field">
+            <div class="field" v-bind:class="{ 'error' : !validation.description }">
               <label>Descripcion</label>
-              <textarea v-model="todo.description" tabindex="2" required="required"></textarea>
+              <textarea v-model="todo.description" 
+                        inital="off"
+                        tabindex="2" 
+                        required="required"
+                        v-validate:description="{ required: true }">
+              </textarea>
             </div>
           </form>
         </validator>
