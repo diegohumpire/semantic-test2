@@ -66,6 +66,7 @@ var vm = new Vue({
           this.todos.$set(index, todo);
         }
         this.todo = new newTodoObj();  
+        this.$resetValidation();
       }
       
     },
