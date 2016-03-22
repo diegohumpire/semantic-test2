@@ -6,10 +6,6 @@
       <div class="ui container">
         <validator name="validationTodo">
           <h4 class="ui header">Nueva Tarea</h4>
-          <!--<div>
-            <p v-if="$validationTodo.title.required">El titulo es requerido</p>
-            <p v-if="$validationTodo.title.minlength">El titulo debe de tener minimo 8 caracteres</p>
-          </div>-->
           <form class="ui form" novalidate>
             <div class="fields">
               <div class="eight wide field" v-bind:class="{ 'error' : !validation.title }">
