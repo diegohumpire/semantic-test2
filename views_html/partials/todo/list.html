@@ -1,0 +1,23 @@
+<div class="ui relaxed aligned animated divided list">
+  <div v-for="todo in $parent.todos | filterBy state in 'state' | orderBy 'id' -1" 
+        v-on:click="" 
+        class="item">
+      <!-- Avatar -->
+    <img src="/public/images/ninja-simple.png" class="ui avatar image"/>
+      <!-- /Avatar -->
+    <div class="middle aligned content">
+      <div class="header">
+        {{ todo.title }}
+      </div><span class="item-text">
+        {{ todo.description }}</span>
+    </div>
+    <div class="ui left pointing red basic label" v-show="!state">Pendiente</div>
+    <div class="ui left pointing green basic label" v-show="state">Hecho</div>
+    <div class="right floated content">
+      <button v-on:click="removeTodo(todo)" class="ui large icon red basic button" v-show="!state"><i class="minus circle icon"></i></button>
+      <button v-on:click="editTodo(todo)" class="ui large icon teal basic button" v-show="!state"><i class="write icon"></i></button>
+      <button v-on:click="doneTodo(todo)" class="ui large icon green basic button" v-show="!state"><i class="checkmark icon"></i></button>
+      <button v-on:click="reverseTodo(todo)" class="ui large icon olive basic button" v-show="state"><i class="undo icon"></i></button>
+    </div>
+  </div>
+</div>
