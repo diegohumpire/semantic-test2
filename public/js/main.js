@@ -1,3 +1,5 @@
+Vue.config.debug = true
+
 // Vue Object
 var App = Vue.extend({
     data: function() {
@@ -28,13 +30,3 @@ router.map({
 });
 
 router.start(App, '#App');
-
-// router.beforeEach(function (transition) {
-//     var token = localStorage.getItem('user_token');
-//     if(token.length > 0) {
-//         // router.redirect(transition.to.path);
-//         transition.next();
-//     } else {
-//         router.go({ name: "/" });
-//     }
-// })

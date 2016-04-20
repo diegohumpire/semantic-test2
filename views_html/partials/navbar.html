@@ -5,7 +5,7 @@
         <span>LTRY</span>
       </div>
       <a class="item" v-link="{ name: 'default' }">Home</a>
-      <a class="item">Sign out</a>
+      <a class="item" v-on:click="signOut()" v-show="$parent.userAuth.authenticated">Sign out</a>
     </div>
   </div>
 </script>

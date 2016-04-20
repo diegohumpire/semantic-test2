@@ -31,10 +31,12 @@ var SignInComponent = Vue.extend({
     activate: function() {
       var token = localStorage.getItem('user_token');
       
-      if (token.length > 0) {
-        router.go({ name: 'todoApp' });
-      } else {
-        router.stop();
+      if(token != null) {
+        if (token.length > 0) {
+          router.go({ name: 'todoApp' });
+        } else {
+          router.stop();
+        }
       }
     }
   }
