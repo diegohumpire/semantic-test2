@@ -55,6 +55,8 @@ var TodoFormComponent = Vue.extend({
           }).then(
               function(response) {
                 console.log(response);
+                todo.id = response.data.id;
+                todo.publish_date = response.data.publish_date;
                 this.$parent.todos.push(todo);
               },
               function(response) {
@@ -127,7 +129,7 @@ var TodoListComponent = Vue.extend({
   },
   data: function() {
     return {
-      todo: this.$parent.todo  
+      lastTodo: this.$parent.todo  
     }
   },
   ready: function() {
