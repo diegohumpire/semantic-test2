@@ -41,15 +41,50 @@ var TodoFormComponent = Vue.extend({
         // If todo is new. TODO: Other way to check this. 
         if (todo.id === 0) {
           
-          // Simulate the new autoincrement ID
-          todo.id = this.$parent.todos.length + 1;
-          this.$parent.todos.push(todo);
+          this.$http({
+            url: appUrls.tasks, 
+            method: 'POST',
+            headers: {
+              'Authorization': 'Token ' + router.app.userAuth.token
+            },
+            data: {
+              title: this.todoForm.title,
+              description: this.todoForm.description,
+              state: this.todoForm.state
+            }
+          }).then(
+              function(response) {
+                console.log(response);
+                this.$parent.todos.push(todo);
+              },
+              function(response) {
+                console.log(response);
+              });
           
         } else {
           
           // Find the todo in the array
-          var index = this.getById(this.$parent.todos, todo.id);
-          this.$parent.todos.$set(index, todo);
+          this.$http({
+            url: appUrls.tasks + this.todoForm.id + '/', 
+            method: 'PUT',
+            headers: {
+              'Authorization': 'Token ' + router.app.userAuth.token
+            },
+            data: {
+              id: this.todoForm.id,
+              title: this.todoForm.title,
+              description: this.todoForm.description,
+              state: this.todoForm.state
+            }
+          }).then(
+              function(response) {
+                console.log(response);
+                var index = this.getById(this.$parent.todos, todo.id);
+                this.$parent.todos.$set(index, todo);
+              },
+              function(response) {
+                console.log(response);
+              });
         }
         
         // Reset todo's model
@@ -59,10 +94,6 @@ var TodoFormComponent = Vue.extend({
         this.$resetValidation();
       }
 
-    },
-    removeTodo: function(todo) {
-      // vue's way to remove obj from array
-      this.todos.$remove(todo);
     },
     // Todo finder
     getById: function(arrayObj, id) {
@@ -84,6 +115,7 @@ var TodoFormComponent = Vue.extend({
   }
 });
 
+
 var TodoListComponent = Vue.extend({
   template: '#todo-list-template',
   props: {
@@ -103,8 +135,52 @@ var TodoListComponent = Vue.extend({
   },
   methods: {
     doneTodo: function(todo) {
+      
       todo.state = true;
-      this.todo = new newTodoObj();
+      
+      this.$http({
+        url: appUrls.tasks + todo.id + '/', 
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Token ' + router.app.userAuth.token
+        },
+        data: {
+          id: todo.id,
+          title: todo.title,
+          description: todo.description,
+          state: todo.state
+        }
+      })
+      .then(
+        function(response) {
+          console.log(response);
+          this.$parent.todo = new newTodoObj();
+        },
+        function(response) {
+          console.log(response);
+      });
+    },
+    removeTodo: function(todo) {
+      
+      var dialong = confirm('Do you really want remove this task?');
+      
+      if(dialong) {
+        this.$http({
+        url: appUrls.tasks + todo.id + '/', 
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Token ' + router.app.userAuth.token
+        }
+      })
+      .then(
+        function(response) {
+          // vue's way to remove obj from array
+          this.$parent.todos.$remove(todo);
+        },
+        function(response) {
+          console.log(response);
+        });
+      }
     },
     editTodo: function(todo) {
       var todoAux = new newTodoObj(todo);
@@ -112,9 +188,32 @@ var TodoListComponent = Vue.extend({
     },
     reverseTodo: function(todo) {
       todo.state = false;
+      
+      this.$http({
+        url: appUrls.tasks + todo.id + '/', 
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Token ' + router.app.userAuth.token
+        },
+        data: {
+          id: todo.id,
+          title: todo.title,
+          description: todo.description,
+          state: todo.state
+        }
+      })
+      .then(
+        function(response) {
+          console.log(response);
+          this.$parent.todo = new newTodoObj();
+        },
+        function(response) {
+          console.log(response);
+      });
     }
   }
 });
+
 
 var TodoComponent = Vue.extend({
   template: '#todo-template',
@@ -124,14 +223,48 @@ var TodoComponent = Vue.extend({
   },
   data: function() {
     return {
-      todos: [
-        { id: '1', title: 'Task #1', state: false, description: 'Descripcion de la Tarea' },
-        { id: '2', title: 'Task #2', state: false, description: 'Descripcion de la Tarea' },
-        { id: '3', title: 'Task #3', state: true, description: 'Descripcion de la Tarea' },
-        { id: '4', title: 'Task #4', state: false, description: 'Descripcion de la Tarea' }
-      ],
+      todos: router.app.userAuth.tasks,
       todo: new newTodoObj()
-    }    
+    }
+  },
+  route: {
+    canActivate: function() {
+      
+      var token = localStorage.getItem('user_token');
+      
+      if (token.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+      
+    },
+    activate: function() {
+      
+      var token = localStorage.getItem('user_token');
+      var urlTaskByUser = appUrls.tasksByUser;
+      var user = router.app.userAuth;
+      
+      this.$http({ 
+          url: urlTaskByUser + token,
+          method: 'GET',
+          headers: {
+            'Authorization': 'Token ' + token
+          },
+        })
+        .then(function(response) {
+            
+          user.token = token;
+          user.username = response.data.username;
+          user.authenticated = true;
+          user.tasks = response.data.tasks;
+          
+          this.todos = user.tasks;
+          
+        }, function(response) {
+          console.log(response);
+        });
+    }
   }
 })
 

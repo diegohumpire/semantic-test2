@@ -1,0 +1,23 @@
+<div id="sigin">
+  <div class="ui two column centered grid">
+    <div class="column">
+      <div class="ui inverted segment">
+        <form class="ui inverted form">
+          <div class="field">
+            <label>Username</label>
+            <input type="text" name="username" v-model='user.username' placeholder="Username">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" name="password" v-model='user.password' placeholder="Password">
+          </div>
+          <div class="ui two column centered grid">
+            <div class="column container-flex-center">
+              <button class="ui button" type="button" v-on:click="signIn()">Sign in</button> 
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 
