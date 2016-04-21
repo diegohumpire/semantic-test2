@@ -1,35 +1,22 @@
 <validator name="validationTodo">
-  <h4 class="ui header">Nueva Tarea</h4>
-  <form class="ui form" novalidate>
-    <div class="fields">
-      <!-- Title -->
-      <div class="eight wide field" v-bind:class="{ 'error' : !validation.title }">
-        <label>Nombre</label>
-        <input type="text" 
-                inital="off"
-                placeholder="Ingrese la nueva Tarea" 
-                tabindex="1" 
-                v-model="todoForm.title"
-                v-validate:title="{ required: true }"/>
-      </div>
-      <!--/ Title -->
-      <!-- State -->
-      <div class="three wide field">
-        <label>Estado</label>
-        <input type="checkbox" style="display: none;" v-model="todoForm.state"/>
-        <div class="ui left pointing red basic label">Pendiente</div>
-      </div>
-      <!-- /State -->
-      <!-- Buttons -->
-      <div class="four wide field container-flex-center">
-        <input type="button" value="Nuevo" v-on:click="newTodo()" class="ui big button basic item-flex-center"/>
-        <input type="button" value="Guardar" v-on:click="saveTodo(todoForm)" class="ui big button green item-flex-center"/>
-      </div>
-      <!-- /Buttons -->
+  <form class="ui inverted form" style="margin: 1.8em;" novalidate>
+    <!-- Title -->
+    <div class="field" v-bind:class="{ 'error' : !validation.title }">
+      <label class="no-error">Nombre</label>
+      <input type="text" 
+              inital="off"
+              placeholder="Ingrese la nueva Tarea" 
+              tabindex="1" 
+              v-model="todoForm.title"
+              v-validate:title="{ required: true }"/>
     </div>
+    <!--/ Title -->
+    <!-- State -->
+    <input type="checkbox" style="display: none;" v-model="todoForm.state"/>
+    <!-- /State -->      
     <!-- Description -->
     <div class="field" v-bind:class="{ 'error' : !validation.description }">
-      <label>Descripcion</label>
+      <label class="no-error">Descripcion</label>
       <textarea v-model="todoForm.description" 
                 inital="off"
                 tabindex="2" 
@@ -38,5 +25,23 @@
       </textarea>
     </div>
     <!-- /Description -->
+    <!-- Buttons -->
+    <div class="actions">
+      <div class="three fluid ui inverted container-flex-center">
+        <div class="big ui red inverted button" v-on:click="closeModal()">
+          <i class="close icon"></i>
+          Cerrar
+        </div>
+        <div class="big ui blue inverted button" v-on:click="newTodo()">
+          <i class="wizard icon"></i>
+          Limpiar
+        </div>
+        <div class="big ui green inverted button" v-on:click="saveTodo(todoForm)">
+          <i class="checkmark icon"></i>
+          Guardar
+        </div>
+      </div>
+    </div>
+      <!-- /Buttons -->
   </form>
 </validator>

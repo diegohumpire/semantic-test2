@@ -39,6 +39,7 @@ var TodoFormComponent = Vue.extend({
       if (isValid) {
         
         // If todo is new. TODO: Other way to check this. 
+        // Create
         if (todo.id === 0) {
           
           this.$http({
@@ -54,17 +55,13 @@ var TodoFormComponent = Vue.extend({
             }
           }).then(
               function(response) {
-                console.log(response);
                 todo.id = response.data.id;
                 todo.publish_date = response.data.publish_date;
                 this.$parent.todos.push(todo);
               },
-              function(response) {
-                console.log(response);
-              });
-          
+              function(response) {});
+        // Update
         } else {
-          
           // Find the todo in the array
           this.$http({
             url: appUrls.tasks + this.todoForm.id + '/', 
@@ -80,13 +77,10 @@ var TodoFormComponent = Vue.extend({
             }
           }).then(
               function(response) {
-                console.log(response);
                 var index = this.getById(this.$parent.todos, todo.id);
                 this.$parent.todos.$set(index, todo);
               },
-              function(response) {
-                console.log(response);
-              });
+              function(response) {});
         }
         
         // Reset todo's model
@@ -94,6 +88,9 @@ var TodoFormComponent = Vue.extend({
         
         // Reset validation
         this.$resetValidation();
+        $('.ui.basic.modal')
+          .modal('setting', 'transition', 'vertical flip')
+          .modal('hide');
       }
 
     },
@@ -113,6 +110,9 @@ var TodoFormComponent = Vue.extend({
     // if exists the object
     isEmpty: function(obj) {
       return obj.id === 0 ? true : false;
+    },
+    closeModal: function() {
+      $('.ui.basic.modal').modal('hide');
     }
   }
 });
@@ -133,7 +133,7 @@ var TodoListComponent = Vue.extend({
     }
   },
   ready: function() {
-    // console.log(this.state);
+    
   },
   methods: {
     doneTodo: function(todo) {
@@ -187,6 +187,7 @@ var TodoListComponent = Vue.extend({
     editTodo: function(todo) {
       var todoAux = new newTodoObj(todo);
       this.$parent.$set('todo', todoAux);
+      $('.ui.basic.modal').modal('show');
     },
     reverseTodo: function(todo) {
       todo.state = false;
@@ -219,6 +220,9 @@ var TodoListComponent = Vue.extend({
 
 var TodoComponent = Vue.extend({
   template: '#todo-template',
+  ready: function() {
+    $('.menu .item').tab();
+  },
   components: {
     'todo-form-component': TodoFormComponent,
     'todo-list-component': TodoListComponent
@@ -266,6 +270,13 @@ var TodoComponent = Vue.extend({
         }, function(response) {
           console.log(response);
         });
+    }
+  },
+  methods: {
+    openModal: function() {
+      $('.ui.basic.modal')
+        .modal('setting', 'transition', 'vertical flip')
+        .modal('show');
     }
   }
 })

@@ -1,15 +1,25 @@
-<div class="ui piled segment">
+<button class="fluid ui button" v-on:click="openModal()">Nuevo Tarea</button>
+<div class="ui pointing secondary menu">
+  <a class="item active" data-tab="first">Pendientes</a>
+  <a class="item" data-tab="second">Hechas</a>
+</div>
+<div class="todos ui tab segment active" data-tab="first">
+  <todo-list-component state="false"></todo-list-component>
+</div>
+<div class="todos ui tab segment" data-tab="second">
+  <todo-list-component state="true"></todo-list-component>  
+</div>
+
+<div class="ui basic modal">
+  <i class="close icon"></i>
+  <div class="ui center aligned container">
+    <div class="header">
+      <h3>Nueva Tarea</h3>
+    </div>
+  </div>
   <div class="ui container">
     <!-- ToDo's Form -->
     <todo-form-component></todo-form-component>
     <!-- /ToDo's Form -->
   </div>
-</div>
-<div class="todos ui piled segment">
-  <h4 class="ui header">Pendientes</h4>
-  <todo-list-component state="false"></todo-list-component>
-</div>
-<div class="todos ui piled segment">
-  <h4 class="ui header">Realizadas</h4>
-  <todo-list-component state="true"></todo-list-component>  
 </div>
