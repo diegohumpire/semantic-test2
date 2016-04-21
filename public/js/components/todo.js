@@ -18,7 +18,6 @@ var TodoFormComponent = Vue.extend({
     }
   },
   ready: function() {
-    // console.log(this.$parent.todos);
     this.$watch(
       function() {
         return this.$parent.todo
@@ -155,12 +154,9 @@ var TodoListComponent = Vue.extend({
       })
       .then(
         function(response) {
-          console.log(response);
           this.$parent.todo = new newTodoObj();
         },
-        function(response) {
-          console.log(response);
-      });
+        function(response) {});
     },
     removeTodo: function(todo) {
       
@@ -179,9 +175,7 @@ var TodoListComponent = Vue.extend({
           // vue's way to remove obj from array
           this.$parent.todos.$remove(todo);
         },
-        function(response) {
-          console.log(response);
-        });
+        function(response) {});
       }
     },
     editTodo: function(todo) {
@@ -207,12 +201,9 @@ var TodoListComponent = Vue.extend({
       })
       .then(
         function(response) {
-          console.log(response);
           this.$parent.todo = new newTodoObj();
         },
-        function(response) {
-          console.log(response);
-      });
+        function(response) {});
     }
   }
 });
@@ -267,13 +258,12 @@ var TodoComponent = Vue.extend({
           
           this.todos = user.tasks;
           
-        }, function(response) {
-          console.log(response);
-        });
+        }, function(response) {});
     }
   },
   methods: {
     openModal: function() {
+      this.todo = new newTodoObj();
       $('.ui.basic.modal')
         .modal('setting', 'transition', 'vertical flip')
         .modal('show');

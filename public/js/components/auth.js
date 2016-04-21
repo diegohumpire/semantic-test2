@@ -21,9 +21,7 @@ var SignInComponent = Vue.extend({
             
             router.go({ name: "todoApp" });
           },
-          function(response) {
-            console.log(response.data);
-          });
+          function(response) {});
     }
   },
   route: {
