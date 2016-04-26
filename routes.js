@@ -1,26 +1,6 @@
 var winston = require('winston');
+var request = require('request');
 var token = "EAAWv3GcO0moBANpu6ZB2vC3zDiyb6Qyi8CY5ulw09vFFueBsW7nkkUQOBXqXId0ewFW2UGhgGtv0ZCMz2WRyFEMFvpeSvVoqYQwRKLVlHOGZCC0OvscA8jI362SSHHkkgh2ZBSdDBP7uYXKdLwr08F8EcCRQss2pc3wKuZCKzGAZDZD";
-
-function sendTextMessage(sender, text) {
-  messageData = {
-    text:text
-  }
-  request({
-    url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token:token},
-    method: 'POST',
-    json: {
-      recipient: {id:sender},
-      message: messageData,
-    }
-  }, function(error, response, body) {
-    if (error) {
-      winston.log('info', 'Error sending message: ' + error);
-    } else if (response.body.error) {
-      winston.log('info', 'Error: ' + response.body.error);
-    }
-  });
-}
 
 var routesGlobal = function(app) {
   
@@ -56,7 +36,6 @@ var routesGlobal = function(app) {
         text = event.message.text;
         winston.log('info', text);
         try {
-          // sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
           messageData = {
             text: "Text received, echo: "+ text.substring(0, 200)
           }
