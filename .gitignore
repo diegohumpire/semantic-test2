@@ -1,5 +1,9 @@
 node_modules
-semantic/
+semantic/src/
+semantic/tasks/
+semantic/gulpfile.js
+semantic/dist/components/
+semantic/dist/themes/
 
 typings/
 .vscode/
