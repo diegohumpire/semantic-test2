@@ -1,8 +1,6 @@
 var winston = require('winston');
 var token = "EAAWv3GcO0moBAG6JYR47hFmO983abt9E20pFcdjze1LVjswvIpZBwWb3eb6uwX9DvRFjq03ZByhNo09qjKaJ5E7EsmuTyN4ATGajhMrGA55jgW8MY3dyQ2OVl2QhZA2Y1wx15PTxNZBrZAHp7laHxa8wl7EdRPty41OpZCBOqHCwZDZD";
 
-winston.add(winston.transports.File, { filename: __dirname + '/public/log_debug/somefile.log' });
-
 function sendTextMessage(sender, text) {
   messageData = {
     text:text
@@ -17,9 +15,9 @@ function sendTextMessage(sender, text) {
     }
   }, function(error, response, body) {
     if (error) {
-      console.log('Error sending message: ', error);
+      winston.log('error', 'Error sending message: ' + error);
     } else if (response.body.error) {
-      console.log('Error: ', response.body.error);
+      winston.log('error', 'Error: ' + response.body.error);
     }
   });
 }
@@ -57,7 +55,7 @@ var routesGlobal = function(app) {
       if (event.message && event.message.text) {
         text = event.message.text;
         winston.log('info', text);
-        // sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
+        sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
       }
     }
     res.sendStatus(200);
