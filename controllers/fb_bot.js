@@ -3,7 +3,7 @@ var request = require('request');
 var token = "EAAWv3GcO0moBANpu6ZB2vC3zDiyb6Qyi8CY5ulw09vFFueBsW7nkkUQOBXqXId0ewFW2UGhgGtv0ZCMz2WRyFEMFvpeSvVoqYQwRKLVlHOGZCC0OvscA8jI362SSHHkkgh2ZBSdDBP7uYXKdLwr08F8EcCRQss2pc3wKuZCKzGAZDZD";
 
 var sendGenericMessage = function (sender) {
-  messageData = {
+  var messageData = {
     "attachment": {
       "type": "template",
       "payload": {
@@ -51,44 +51,64 @@ var sendGenericMessage = function (sender) {
   });
 }
 
+var sendSimpleMessage = function(sender, text) {
+  
+  var messageData = {
+    text: text
+  }
+  
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      winston.log('info', 'Error sending message: ' + error);
+    } else if (response.body.error) {
+      winston.log('info', 'Error: ' + response.body.error);
+    }
+  });
+  
+}
+
 
 // Public Actions
 exports.webhook = function (req, res) {
   messaging_events = req.body.entry[0].messaging;
   for (i = 0; i < messaging_events.length; i++) {
+    
     event = req.body.entry[0].messaging[i];
     sender = event.sender.id;
+    
     if (event.message && event.message.text) {
+      
       text = event.message.text;
       winston.log('info', text);
+      
       try {
-        messageData = {
-          text: "Text received, echo: "+ text.substring(0, 200)
-        }
-        request({
-          url: 'https://graph.facebook.com/v2.6/me/messages',
-          qs: {access_token:token},
-          method: 'POST',
-          json: {
-            recipient: {id:sender},
-            message: messageData,
-          }
-        }, function(error, response, body) {
-          if (error) {
-            winston.log('info', 'Error sending message: ' + error);
-          } else if (response.body.error) {
-            winston.log('info', 'Error: ' + response.body.error);
-          }
-        });
         
         if (text === 'Generic') {
           sendGenericMessage(sender);
           continue;
         }
+        
+        sendSimpleMessage(sender, text);
+        
       }
       catch (e) {
         winston.log('info', e);
       }
+    }
+    
+    if (event.postback) {
+      text = JSON.stringify(event.postback);
+      // sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token);
+      winston.log('info', text);
+      continue;
     }
   }
   res.sendStatus(200);
