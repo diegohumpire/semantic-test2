@@ -77,7 +77,7 @@ var routesGlobal = function(app) {
           });
         }
         catch (e) {
-          winston.log('info', text);
+          winston.log('info', e);
         }
       }
     }
