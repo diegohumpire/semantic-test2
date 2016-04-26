@@ -1,4 +1,7 @@
-var token = "EAAWv3GcO0moBAJ7MUGKIchQDr1ZCi1bZCOTyZAmOHBVidzNXxeWaic7ULLkeLZASq0C5YMlyqCVVcQaU63fqKAIv6dqYoP3iLzu9hut2kbV8eZBAXEVOoFQZBfrYQcw8ISkEY7NmA1LXpOCnAj88yj9kAhxwyZBq8iZCjE9nhonRhgZDZD";
+var winston = require('winston');
+var token = "EAAWv3GcO0moBAG6JYR47hFmO983abt9E20pFcdjze1LVjswvIpZBwWb3eb6uwX9DvRFjq03ZByhNo09qjKaJ5E7EsmuTyN4ATGajhMrGA55jgW8MY3dyQ2OVl2QhZA2Y1wx15PTxNZBrZAHp7laHxa8wl7EdRPty41OpZCBOqHCwZDZD";
+
+winston.add(winston.transports.File, { filename: __dirname + '/public/log_debug/somefile.log' });
 
 function sendTextMessage(sender, text) {
   messageData = {
@@ -53,7 +56,8 @@ var routesGlobal = function(app) {
       sender = event.sender.id;
       if (event.message && event.message.text) {
         text = event.message.text;
-        sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
+        winston.log('info', text);
+        // sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
       }
     }
     res.sendStatus(200);
