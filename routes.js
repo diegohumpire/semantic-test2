@@ -1,5 +1,5 @@
 var winston = require('winston');
-var token = "EAAWv3GcO0moBAG6JYR47hFmO983abt9E20pFcdjze1LVjswvIpZBwWb3eb6uwX9DvRFjq03ZByhNo09qjKaJ5E7EsmuTyN4ATGajhMrGA55jgW8MY3dyQ2OVl2QhZA2Y1wx15PTxNZBrZAHp7laHxa8wl7EdRPty41OpZCBOqHCwZDZD";
+var token = "EAAWv3GcO0moBANpu6ZB2vC3zDiyb6Qyi8CY5ulw09vFFueBsW7nkkUQOBXqXId0ewFW2UGhgGtv0ZCMz2WRyFEMFvpeSvVoqYQwRKLVlHOGZCC0OvscA8jI362SSHHkkgh2ZBSdDBP7uYXKdLwr08F8EcCRQss2pc3wKuZCKzGAZDZD";
 
 function sendTextMessage(sender, text) {
   messageData = {
@@ -15,9 +15,9 @@ function sendTextMessage(sender, text) {
     }
   }, function(error, response, body) {
     if (error) {
-      winston.log('error', 'Error sending message: ' + error);
+      winston.log('info', 'Error sending message: ' + error);
     } else if (response.body.error) {
-      winston.log('error', 'Error: ' + response.body.error);
+      winston.log('info', 'Error: ' + response.body.error);
     }
   });
 }
@@ -55,7 +55,30 @@ var routesGlobal = function(app) {
       if (event.message && event.message.text) {
         text = event.message.text;
         winston.log('info', text);
-        sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
+        try {
+          // sendTextMessage(sender, "Text received, echo: "+ text.substring(0, 200));
+          messageData = {
+            text: "Text received, echo: "+ text.substring(0, 200)
+          }
+          request({
+            url: 'https://graph.facebook.com/v2.6/me/messages',
+            qs: {access_token:token},
+            method: 'POST',
+            json: {
+              recipient: {id:sender},
+              message: messageData,
+            }
+          }, function(error, response, body) {
+            if (error) {
+              winston.log('info', 'Error sending message: ' + error);
+            } else if (response.body.error) {
+              winston.log('info', 'Error: ' + response.body.error);
+            }
+          });
+        }
+        catch (e) {
+          winston.log('info', text);
+        }
       }
     }
     res.sendStatus(200);
