@@ -2,7 +2,7 @@ var routesGlobal = function(app) {
   
   var home = require('./controllers/home');
   var user = require('./controllers/user');
-  var fb_boot = require('./controllers/fb_boot');
+  var fb_boot = require('./controllers/fb_bot');
   
   /* GET home page. */
   app.get('/', home.index);
