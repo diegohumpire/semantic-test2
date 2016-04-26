@@ -11,6 +11,7 @@
     "debug": "~2.2.0",
     "ejs": "^2.4.1",
     "express": "~4.13.1",
+    "log": "^1.4.0",
     "morgan": "~1.6.1",
     "semantic-ui": "^2.1.8",
     "serve-favicon": "~2.3.0"
