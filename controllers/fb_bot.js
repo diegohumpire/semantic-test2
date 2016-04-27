@@ -1,6 +1,6 @@
 var winston = require('winston');
 var request = require('request');
-var $str = require('stringformat');
+var str_util = require('stringformat');
 var token = "EAAWv3GcO0moBANpu6ZB2vC3zDiyb6Qyi8CY5ulw09vFFueBsW7nkkUQOBXqXId0ewFW2UGhgGtv0ZCMz2WRyFEMFvpeSvVoqYQwRKLVlHOGZCC0OvscA8jI362SSHHkkgh2ZBSdDBP7uYXKdLwr08F8EcCRQss2pc3wKuZCKzGAZDZD";
 
 var sendGenericMessage = function (sender) {
@@ -108,8 +108,8 @@ exports.webhook = function (req, res) {
           var cmd_text = text.substr((text.length - cmd_text.length) * -1);
           var cmd_specific = cmd_text.substring(0, cmd_text.indexOf(':'));
           
-          sendSimpleMessage(sender, $str.format('Se ha enviado un comando - completo "{0}"!', cmd_text));
-          sendSimpleMessage(sender, $str.format('Se ha enviado un comando especifico "{0}"!', cmd_specific));
+          sendSimpleMessage(sender, str_util.format('Se ha enviado un comando - completo "{0}"!', cmd_text));
+          sendSimpleMessage(sender, str_util.format('Se ha enviado un comando especifico "{0}"!', cmd_specific));
           
           continue;
         }
