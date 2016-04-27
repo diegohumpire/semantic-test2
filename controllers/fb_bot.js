@@ -113,8 +113,21 @@ exports.webhook = function (req, res) {
           
           var cmd_specific = cmd_text.substring(0, cmd_text.indexOf(':'));
           
-          sendSimpleMessage(sender, format('Se ha enviado un comando - completo "{0}"!', cmd_text));
-          sendSimpleMessage(sender, format('Se ha enviado un comando - especifico "{0}"!', cmd_specific));
+          // Ej: auth:dhumpire@dhumpire
+          // sendSimpleMessage(sender, format('Se ha enviado un comando - completo "{0}"', cmd_text));
+          
+          // Ej: auth
+          // sendSimpleMessage(sender, format('Se ha enviado un comando - especifico "{0}"', cmd_specific));
+          
+          if (cmd_specific === 'auth') {
+            
+            var auth_str = cmd_text.substring(a.indexOf(':') + 1, cmd_text.length);
+            var username = auth_str.substring(0, auth_str.indexOf('@'));
+            var password = auth_str.substring(auth_str.indexOf('@') + 1, auth_str.length);
+            
+            sendSimpleMessage(sender, 'username: {0} password: {1}'.format(username, password));
+            continue;
+          }
           
           continue;
         }
