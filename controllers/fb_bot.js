@@ -97,7 +97,7 @@ exports.webhook = function (req, res) {
     if (event.message && event.message.text) {
       
       // Texto del chat
-      var text = event.message.text;
+      var text = String(event.message.text);
       winston.log('info', text);
       
       try {
@@ -105,6 +105,12 @@ exports.webhook = function (req, res) {
         if (text.indexOf(cmd_text_init) > -1) {
           
           var cmd_text = text.substr((text.length - cmd_text.length) * -1);
+          
+          if (cmd_text.indexOf(':') == -1) {
+            sendSimpleMessage(sender, 'Por favor ingrese los parametros adecuados');
+            continue;
+          } 
+          
           var cmd_specific = cmd_text.substring(0, cmd_text.indexOf(':'));
           
           sendSimpleMessage(sender, format('Se ha enviado un comando - completo "{0}"!', cmd_text));
