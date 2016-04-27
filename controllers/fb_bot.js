@@ -85,6 +85,7 @@ exports.webhook = function (req, res) {
     sender = event.sender.id;
     
     winston.log('info', event);
+    winston.log('info', event.sender);
     
     if (event.message && event.message.text) {
       
