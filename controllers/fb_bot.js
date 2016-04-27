@@ -1,5 +1,6 @@
 var winston = require('winston');
 var request = require('request');
+var $str = require('stringformat');
 var token = "EAAWv3GcO0moBANpu6ZB2vC3zDiyb6Qyi8CY5ulw09vFFueBsW7nkkUQOBXqXId0ewFW2UGhgGtv0ZCMz2WRyFEMFvpeSvVoqYQwRKLVlHOGZCC0OvscA8jI362SSHHkkgh2ZBSdDBP7uYXKdLwr08F8EcCRQss2pc3wKuZCKzGAZDZD";
 
 var sendGenericMessage = function (sender) {
@@ -62,7 +63,7 @@ var sendSimpleMessage = function(sender, text) {
     qs: {access_token:token},
     method: 'POST',
     json: {
-      recipient: {id:sender},
+      recipient: { id:sender },
       message: messageData,
     }
   }, function(error, response, body) {
@@ -78,21 +79,39 @@ var sendSimpleMessage = function(sender, text) {
 
 // Public Actions
 exports.webhook = function (req, res) {
-  messaging_events = req.body.entry[0].messaging;
+  
+  var cmd_text_init = 'cmd@';
+  var messaging_events = req.body.entry[0].messaging;
+  
   for (i = 0; i < messaging_events.length; i++) {
     
-    event = req.body.entry[0].messaging[i];
-    sender = event.sender.id;
+    // Entrada de FB
+    var event = req.body.entry[0].messaging[i];
+    
+    // ID de FB de la persona con quien se esta conversado por chat
+    var sender = event.sender.id; 
     
     winston.log('info', event);
     winston.log('info', event.sender);
     
     if (event.message && event.message.text) {
       
-      text = event.message.text;
+      // Texto del chat
+      var text = event.message.text;
       winston.log('info', text);
       
       try {
+        
+        if (text.indexOf(cmd_text_init) > -1) {
+          
+          var cmd_text = text.substr((text.length - cmd_text.length) * -1);
+          var cmd_specific = cmd_text.substring(0, cmd_text.indexOf(':'));
+          
+          sendSimpleMessage(sender, $str.format('Se ha enviado un comando - completo "{0}"!', cmd_text));
+          sendSimpleMessage(sender, $str.format('Se ha enviado un comando especifico "{0}"!', cmd_specific));
+          
+          continue;
+        }
         
         if (text === 'Generic') {
           sendGenericMessage(sender);
