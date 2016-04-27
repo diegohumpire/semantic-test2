@@ -125,7 +125,7 @@ exports.webhook = function (req, res) {
             var username = auth_str.substring(0, auth_str.indexOf('@'));
             var password = auth_str.substring(auth_str.indexOf('@') + 1, auth_str.length);
             
-            sendSimpleMessage(sender, 'username: {0} password: {1}'.format(username, password));
+            sendSimpleMessage(sender, format('username: {0} password: {1}', username, password));
             continue;
           }
           
