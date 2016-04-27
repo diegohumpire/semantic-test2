@@ -104,7 +104,6 @@ exports.webhook = function (req, res) {
         
         if (text.indexOf(cmd_text_init) > -1) {
           
-          var cmd_text = String(text);
           var cmd_text = text.substr((text.length - cmd_text.length) * -1);
           var cmd_specific = cmd_text.substring(0, cmd_text.indexOf(':'));
           
