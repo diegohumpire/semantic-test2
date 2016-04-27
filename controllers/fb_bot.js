@@ -106,6 +106,9 @@ exports.webhook = function (req, res) {
           
           var cmd_text = text.substring((text.length - cmd_text_init.length) * -1);
           
+          sendSimpleMessage(sender, format('{0}', text.substring((text.length - cmd_text_init.length) * -1)));
+          sendSimpleMessage(sender, format('{0}', cmd_text));
+          
           if (cmd_text.indexOf(':') == -1) {
             sendSimpleMessage(sender, 'Por favor ingrese los parametros adecuados');
             continue;
@@ -114,7 +117,7 @@ exports.webhook = function (req, res) {
           var cmd_specific = cmd_text.substring(0, cmd_text.indexOf(':'));
           
           sendSimpleMessage(sender, format('Se ha enviado un comando - completo "{0}"!', cmd_text));
-          sendSimpleMessage(sender, format('Se ha enviado un comando especifico "{0}"!', cmd_specific));
+          sendSimpleMessage(sender, format('Se ha enviado un comando - especifico "{0}"!', cmd_specific));
           
           continue;
         }
