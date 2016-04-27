@@ -104,10 +104,7 @@ exports.webhook = function (req, res) {
         
         if (text.indexOf(cmd_text_init) > -1) {
           
-          var cmd_text = text.substring((text.length - cmd_text_init.length) * -1);
-          
-          sendSimpleMessage(sender, format('{0}', text.substring((text.length - cmd_text_init.length) * -1)));
-          sendSimpleMessage(sender, format('{0}', cmd_text));
+          var cmd_text = text.replace(cmd_text_init, '');
           
           if (cmd_text.indexOf(':') == -1) {
             sendSimpleMessage(sender, 'Por favor ingrese los parametros adecuados');
