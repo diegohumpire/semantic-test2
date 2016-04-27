@@ -108,6 +108,7 @@ exports.webhook = function (req, res) {
       text = JSON.stringify(event.postback);
       // sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token);
       winston.log('info', text);
+      sendGenericMessage(sender);
       continue;
     }
   }
