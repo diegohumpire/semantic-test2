@@ -25,9 +25,6 @@ var UserAuth = function(props) {
 };
 
 var appUrls = {
-  // tokenizer: 'http://localhost:8000/api/v2/api-auth/tokenizer/',
-  // tasks: 'http://127.0.0.1:8000/api/v2/tasks/',
-  // tasksByUser: 'http://127.0.0.1:8000/api/v2/users/tasks/'
   tokenizer: 'https://todo-backend-dj.herokuapp.com/api/v2/api-auth/tokenizer/',
   tasks: 'https://todo-backend-dj.herokuapp.com/api/v2/tasks/',
   tasksByUser: 'https://todo-backend-dj.herokuapp.com/api/v2/users/tasks/'
