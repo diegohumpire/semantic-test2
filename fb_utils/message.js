@@ -68,7 +68,7 @@ var genericElement = function(data) {
           'title': 'Ver en la web'
         },
         {
-          'type': 'postbak',
+          'type': 'postback',
           'title': 'Hecho?',
           'payload': 'task-' + task.id
         }
