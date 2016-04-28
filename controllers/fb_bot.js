@@ -93,7 +93,7 @@ var sendGenericMessage = function(sender) {
             "type": "web_url",
             "url": "https://www.messenger.com/",
             "title": "Web url"
-          }, {
+          },{
             "type": "postback",
             "title": "Postback",
             "payload": "Payload for first element in a generic bubble",
@@ -103,6 +103,10 @@ var sendGenericMessage = function(sender) {
           "subtitle": "Element #2 of an hscroll",
           "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
           "buttons": [{
+            "type": "web_url",
+            "url": "https://www.messenger.com/",
+            "title": "Web url"
+          },{
             "type": "postback",
             "title": "Postback",
             "payload": "Payload for second element in a generic bubble",
