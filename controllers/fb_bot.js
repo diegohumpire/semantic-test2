@@ -62,6 +62,8 @@ var sendMessage = function(sender, messageData) {
       winston.log('info', 'Error sending message: ' + error);
     } else if (response.body.error) {
       winston.log('info', 'Error - Here!! : ' + response.body.error);
+      var keys = Object.keys(response.body.error);
+      winston.log('info', 'Error - Here!! : ' + keys);
     }
   });
 };
