@@ -106,7 +106,6 @@ exports.sendSimpleMessage = function(sender, text, token) {
     if (error) {
       winston.log('info', 'Error sending message: ' + error);
     } else if (response.body.error) {
-      winston.log('info', 'Error - sendSimpleMessage!! : ' + keys);
       winston.log('info', 'Error - sendSimpleMessage!! : ' + response.body.error.message);
       winston.log('info', 'Error - sendSimpleMessage!! : ' + response.body.error.type);
       winston.log('info', 'Error - sendSimpleMessage!! : ' + response.body.error.code);
@@ -196,7 +195,6 @@ exports.sendGenericMessage = function(sender, token) {
     if (error) {
       winston.log('info', 'Error sending message: ' + error);
     } else if (response.body.error) {
-      winston.log('info', 'Error - Here!! : ' + keys);
       winston.log('info', 'Error - Here!! : ' + response.body.error.message);
       winston.log('info', 'Error - Here!! : ' + response.body.error.type);
       winston.log('info', 'Error - Here!! : ' + response.body.error.code);
