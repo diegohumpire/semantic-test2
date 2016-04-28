@@ -76,6 +76,8 @@ var genericElement = function(data) {
     };
     elements.push(element);
   }
+  
+  return elements;
 } 
 
 
