@@ -91,6 +91,8 @@ exports.webhook = function (req, res) {
       var payload = postback.payload;
       var task_id = payload.substring(payload.indexOf('-') + 1, payload.length);
       
+      winston.log('info', 'Task ID: ' + task_id);
+      
       request({ 
         url: 'http://todo-backend-dj.herokuapp.com/api/v2/tasks/' + task_id + '/', 
         method: 'PUT', 
@@ -102,9 +104,14 @@ exports.webhook = function (req, res) {
         }
       }, 
       function(error, response, body) { 
-        task = body;
-        text_response = format('La siguiente tarea "{0} - {1}" ha sido marcada como hecho. Felicidades!', body.title, body.descripcion);
-        fb_utils.sendSimpleMessage(sender, text_response, token);
+        winston.log('info', body);
+        if (error) {
+          winston.log('info', 'Error: ' + error);
+        } else {
+          task = body;
+          text_response = format('La siguiente tarea "{0} - {1}" ha sido marcada como hecho. Felicidades!', body.title, body.descripcion);
+          fb_utils.sendSimpleMessage(sender, text_response, token);  
+        }
       });
       
       continue;
