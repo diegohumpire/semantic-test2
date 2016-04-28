@@ -86,7 +86,7 @@ exports.webhook = function (req, res) {
     
     // Postback Event
     if (event.postback) {
-      var postback = JSON.stringify(event.postback);
+      var postback = event.postback;
       winston.log('info', postback);
       winston.log('info', typeof(postback));
       var payload = postback.payload;
