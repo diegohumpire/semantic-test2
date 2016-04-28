@@ -4,8 +4,9 @@ var format = require('string-format');
 var token = "EAAWv3GcO0moBANpu6ZB2vC3zDiyb6Qyi8CY5ulw09vFFueBsW7nkkUQOBXqXId0ewFW2UGhgGtv0ZCMz2WRyFEMFvpeSvVoqYQwRKLVlHOGZCC0OvscA8jI362SSHHkkgh2ZBSdDBP7uYXKdLwr08F8EcCRQss2pc3wKuZCKzGAZDZD";
 
 
-var parserButtons = function(data) {
+var parserButtons = function(data, type_button) {
   
+  var type_button = type_button || 'postback';
   var arrayData = [];
   
   try {
@@ -14,11 +15,10 @@ var parserButtons = function(data) {
       if (index != 3) {
         var task = data[index];
         var buttonTemplate = {
-          'type': 'postback',
+          'type': type_button,
           'title': task.description,
-          'payload': "user_defined_payload"
+          'payload': task.id
         }
-        
         arrayData.push(buttonTemplate);
       }
     }
@@ -106,7 +106,16 @@ var sendGenericMessage = function(sender) {
             "type": "postback",
             "title": "Postback",
             "payload": "Payload for second element in a generic bubble",
-          }],
+          }]
+         },{
+          "title": "Second card",
+          "subtitle": "Element #2 of an hscroll",
+          "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
+          "buttons": [{
+            "type": "postback",
+            "title": "Postback",
+            "payload": "Payload for third element in a generic bubble"
+          }]
         }]
       }
     }
