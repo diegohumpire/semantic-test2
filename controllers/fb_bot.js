@@ -3,7 +3,63 @@ var request = require('request');
 var format = require('string-format');
 var token = "EAAWv3GcO0moBANpu6ZB2vC3zDiyb6Qyi8CY5ulw09vFFueBsW7nkkUQOBXqXId0ewFW2UGhgGtv0ZCMz2WRyFEMFvpeSvVoqYQwRKLVlHOGZCC0OvscA8jI362SSHHkkgh2ZBSdDBP7uYXKdLwr08F8EcCRQss2pc3wKuZCKzGAZDZD";
 
-var sendGenericMessage = function (sender) {
+
+var parserButtons = function(data) {
+  
+  var arrayData = [];
+  
+  for(var index in data) { 
+    var task = data[index];
+    var buttonTemplate = {
+      'type': 'postback',
+      'title': task.description,
+      'payload': "user_defined_payload"
+    }
+    arrayData.push(buttonTemplate);
+  }
+  
+  return arrayData;
+};
+
+
+var createMessageData = function(data) {
+  var messageData = {
+    'attachment': {
+      'type': 'template',
+      'payload': {
+        'template_type': 'button',
+        'text': 'Que tarea deseas visualizar?',
+        'buttons': parserButtons(data)
+      }
+    }
+  }
+};
+
+
+var sendMessage = function(sender, messageData) {
+  
+  var messageData = createMessageData(messageData);
+  
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: { access_token:token },
+    method: 'POST',
+    json: {
+      recipient: { id:sender },
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      winston.log('info', 'Error sending message: ' + error);
+    } else if (response.body.error) {
+      winston.log('info', 'Error: ' + response.body.error);
+    }
+  });
+};
+
+
+var sendGenericMessage = function(sender) {
+  
   var messageData = {
     "attachment": {
       "type": "template",
@@ -35,12 +91,13 @@ var sendGenericMessage = function (sender) {
       }
     }
   };
+  
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token:token},
+    qs: { access_token:token },
     method: 'POST',
     json: {
-      recipient: {id:sender},
+      recipient: { id:sender },
       message: messageData,
     }
   }, function(error, response, body) {
@@ -60,7 +117,7 @@ var sendSimpleMessage = function(sender, text) {
   
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token:token},
+    qs: { access_token:token },
     method: 'POST',
     json: {
       recipient: { id:sender },
@@ -124,8 +181,22 @@ exports.webhook = function (req, res) {
             var auth_str = cmd_text.substring(cmd_text.indexOf(':') + 1, cmd_text.length);
             var username = auth_str.substring(0, auth_str.indexOf('@'));
             var password = auth_str.substring(auth_str.indexOf('@') + 1, auth_str.length);
+            var user_information = {};
             
-            sendSimpleMessage(sender, format('username: {0} password: {1}', username, password));
+            // sendSimpleMessage(sender, format('username: {0} password: {1}', username, password));
+            request({ 
+              url: 'https://todo-backend-dj.herokuapp.com/api/v2/api-auth/tokenizer/', 
+              method: 'POST', 
+              json: { 
+                username: 'dhumpire', 
+                password: 'dhumpire' 
+              } 
+            }, 
+            function(error, response, body) { 
+              // console.log(body.user.tasks)
+              user_information = body;
+              sendMessage(sender, user_information.user.tasks);
+            });
             continue;
           }
           
