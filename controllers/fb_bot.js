@@ -11,20 +11,19 @@ var parserButtons = function(data) {
   try {
     
     for(var index in data) {
-       
-      if (index === 3) {
-        continue;
+      if (index != 3) {
+        var task = data[index];
+        var buttonTemplate = {
+          'type': 'postback',
+          'title': task.description,
+          'payload': "user_defined_payload"
+        }
+        
+        arrayData.push(buttonTemplate);
       }
-      
-      var task = data[index];
-      var buttonTemplate = {
-        'type': 'postback',
-        'title': task.description,
-        'payload': "user_defined_payload"
-      }
-      
-      arrayData.push(buttonTemplate);
     }
+    
+    winston.log('info', 'parserButtons: ' + arrayData.length);
     
     return arrayData;
     
