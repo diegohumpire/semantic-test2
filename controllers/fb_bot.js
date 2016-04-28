@@ -21,7 +21,7 @@ var parserButtons = function(data) {
     }
     
     return arrayData;
-      
+    
   } catch(e) {
     winston.log('info', 'parserButtons: ' + e);
   }
@@ -61,7 +61,7 @@ var sendMessage = function(sender, messageData) {
     if (error) {
       winston.log('info', 'Error sending message: ' + error);
     } else if (response.body.error) {
-      winston.log('info', 'Error: ' + response.body.error);
+      winston.log('info', 'Error - Here!! : ' + response.body.error);
     }
   });
 };
