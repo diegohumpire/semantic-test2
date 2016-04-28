@@ -191,12 +191,12 @@ exports.webhook = function (req, res) {
               url: 'https://todo-backend-dj.herokuapp.com/api/v2/api-auth/tokenizer/', 
               method: 'POST', 
               json: { 
-                username: 'dhumpire', 
-                password: 'dhumpire' 
+                username: username, 
+                password: password 
               } 
             }, 
             function(error, response, body) { 
-              // console.log(body.user.tasks)
+              winston.log('info', body);
               user_information = body;
               sendMessage(sender, user_information.user.tasks);
             });
