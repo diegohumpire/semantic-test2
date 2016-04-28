@@ -88,6 +88,7 @@ exports.webhook = function (req, res) {
     if (event.postback) {
       var postback = JSON.stringify(event.postback);
       winston.log('info', postback);
+      winston.log('info', typeof(postback));
       var payload = postback.payload;
       winston.log('info', payload);
       var task_id = payload.substring(payload.indexOf('-') + 1, payload.length);
