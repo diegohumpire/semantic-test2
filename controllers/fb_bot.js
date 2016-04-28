@@ -195,6 +195,7 @@ exports.webhook = function (req, res) {
             function(error, response, body) { 
               // console.log(body.user.tasks)
               user_information = body;
+              winston.log('info', user_information.user.tasks);
               sendMessage(sender, user_information.user.tasks);
             });
             continue;
