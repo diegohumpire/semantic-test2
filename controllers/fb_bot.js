@@ -70,7 +70,7 @@ exports.webhook = function (req, res) {
         }
         
         if (text === 'Generic') {
-          fb_utils.sendGenericMessage(sender);
+          fb_utils.sendGenericMessage(sender, token);
           continue;
         }
         
