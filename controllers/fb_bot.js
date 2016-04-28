@@ -60,7 +60,7 @@ exports.webhook = function (req, res) {
             function(error, response, body) { 
               user_information = body;
               tasks = user_information.user.tasks.filter(function (obj) {
-                return obj.state == true;
+                return obj.state == false;
               });
               fb_utils.sendMessage(sender, tasks, token);
             });
