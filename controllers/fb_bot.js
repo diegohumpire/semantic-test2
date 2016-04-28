@@ -8,17 +8,23 @@ var parserButtons = function(data) {
   
   var arrayData = [];
   
-  for(var index in data) { 
-    var task = data[index];
-    var buttonTemplate = {
-      'type': 'postback',
-      'title': task.description,
-      'payload': "user_defined_payload"
+  try {
+    
+    for(var index in data) { 
+      var task = data[index];
+      var buttonTemplate = {
+        'type': 'postback',
+        'title': task.description,
+        'payload': "user_defined_payload"
+      }
+      arrayData.push(buttonTemplate);
     }
-    arrayData.push(buttonTemplate);
+    
+    return arrayData;
+      
+  } catch(e) {
+    winston.log('info', 'parserButtons: ' + e);
   }
-  
-  return arrayData;
 };
 
 
@@ -196,7 +202,7 @@ exports.webhook = function (req, res) {
               } 
             }, 
             function(error, response, body) { 
-              winston.log('info', body);
+              // winston.log('info', body);
               user_information = body;
               sendMessage(sender, user_information.user.tasks);
             });
