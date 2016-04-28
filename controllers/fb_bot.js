@@ -64,6 +64,10 @@ var sendMessage = function(sender, messageData) {
       winston.log('info', 'Error - Here!! : ' + response.body.error);
       var keys = Object.keys(response.body.error);
       winston.log('info', 'Error - Here!! : ' + keys);
+      winston.log('info', 'Error - Here!! : ' + response.body.error.message);
+      winston.log('info', 'Error - Here!! : ' + response.body.error.type);
+      winston.log('info', 'Error - Here!! : ' + response.body.error.code);
+      winston.log('info', 'Error - Here!! : ' + response.body.error.fbtrace_id);
     }
   });
 };
