@@ -52,9 +52,51 @@ var createButtonMessageData = function(data) {
 };
 
 
+var genericElement = function(data) {
+  
+  var elements = [];
+  
+  for(var index in data) {
+    var task = data[index];
+    var element = {
+      "title": task.title,
+      "subtitle": task.description,
+      "buttons": [
+        {
+          "type": 'web_url',
+          'url': task.highlight,
+          'title': 'Ver en la web'
+        },
+        {
+          'type': 'postbak',
+          'title': 'Hecho?',
+          'payload': 'task-' + task.id
+        }
+      ]
+    };
+    elements.push(element);
+  }
+} 
+
+
+var createGenericMessageData = function(data) {
+  
+  var messageData = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": genericElement(data)
+      }
+    }
+  };
+  
+  return messageData;
+}
+
 exports.sendMessage = function(sender, messageData, token) {
   
-  var messageData = createButtonMessageData(messageData);
+  var messageData = createGenericMessageData(messageData); //createButtonMessageData(messageData);
   
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
