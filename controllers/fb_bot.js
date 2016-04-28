@@ -38,9 +38,9 @@ exports.webhook = function (req, res) {
           
           var cmd_specific = cmd_text.substring(0, cmd_text.indexOf(':'));
           // Ej: auth:dhumpire@dhumpire
-          // fb_utils.sendSimpleMessage(sender, format('Se ha enviado un comando - completo "{0}"', cmd_text));
+          // fb_utils.sendSimpleMessage(sender, format('Se ha enviado un comando - completo "{0}"', cmd_text), token);
           // Ej: auth
-          // fb_utils.sendSimpleMessage(sender, format('Se ha enviado un comando - especifico "{0}"', cmd_specific));
+          // fb_utils.sendSimpleMessage(sender, format('Se ha enviado un comando - especifico "{0}"', cmd_specific), token);
           
           if (cmd_specific === 'auth') {
             
@@ -74,7 +74,7 @@ exports.webhook = function (req, res) {
           continue;
         }
         
-        fb_utils.sendSimpleMessage(sender, text);
+        fb_utils.sendSimpleMessage(sender, text, token);
         
       }
       catch (e) {
