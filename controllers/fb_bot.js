@@ -49,8 +49,6 @@ exports.webhook = function (req, res) {
             var password = auth_str.substring(auth_str.indexOf('@') + 1, auth_str.length);
             var user_information = {};
             
-            // fb_utils.sendSimpleMessage(sender, format('username: {0} password: {1}', username, password));
-            
             request({ 
               url: 'https://todo-backend-dj.herokuapp.com/api/v2/api-auth/tokenizer/', 
               method: 'POST', 
@@ -61,8 +59,12 @@ exports.webhook = function (req, res) {
             }, 
             function(error, response, body) { 
               user_information = body;
-              fb_utils.sendMessage(sender, user_information.user.tasks, token);
+              tasks = user_information.user.tasks.filter(function (obj) {
+                return obj.state == true;
+              });
+              fb_utils.sendMessage(sender, tasks, token);
             });
+            
             continue;
           }
           
@@ -84,9 +86,27 @@ exports.webhook = function (req, res) {
     
     // Postback Event
     if (event.postback) {
-      text = JSON.stringify(event.postback);
-      winston.log('info', text);
-      fb_utils.sendGenericMessage(sender, token);
+      var postback = JSON.stringify(event.postback);
+      // winston.log('info', postback);
+      var payload = postback.payload;
+      var task_id = payload.substring(payload.indexOf('-') + 1, payload.length);
+      
+      request({ 
+        url: 'http://todo-backend-dj.herokuapp.com/api/v2/tasks/' + task_id + '/', 
+        method: 'PUT', 
+        json: { 
+          state: true 
+        },
+        headers: {
+          'Authorization': 'Token f7e7cd9e49824c1b1557c4d60179f5032ce5c4b4'
+        }
+      }, 
+      function(error, response, body) { 
+        task = body;
+        text_response = format('La siguiente tarea "{0} - {1}" ha sido marcada como hecho. Felicidades!', body.title, body.descripcion);
+        fb_utils.sendSimpleMessage(sender, text_response, token);
+      });
+      
       continue;
     }
   }
