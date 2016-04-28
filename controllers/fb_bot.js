@@ -151,14 +151,14 @@ exports.webhook = function (req, res) {
     // ID de FB de la persona con quien se esta conversado por chat
     var sender = event.sender.id; 
     
-    winston.log('info', event);
-    winston.log('info', event.sender);
+    // winston.log('info', event);
+    // winston.log('info', event.sender);
     
     if (event.message && event.message.text) {
       
       // Texto del chat
       var text = String(event.message.text);
-      winston.log('info', text);
+      // winston.log('info', text);
       
       try {
         
