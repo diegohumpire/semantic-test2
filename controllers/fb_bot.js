@@ -10,13 +10,19 @@ var parserButtons = function(data) {
   
   try {
     
-    for(var index in data) { 
+    for(var index in data) {
+       
+      if (index === 3) {
+        continue;
+      }
+      
       var task = data[index];
       var buttonTemplate = {
         'type': 'postback',
         'title': task.description,
         'payload': "user_defined_payload"
       }
+      
       arrayData.push(buttonTemplate);
     }
     
