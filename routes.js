@@ -6,6 +6,9 @@ var routesGlobal = function(app) {
   
   /* GET home page. */
   app.get('/', home.index);
+
+    /* GET home page. */
+  app.get('/apple-app-site-association', home.index);
   
   /* GET users listing. */
   app.get('/users', user.index);
