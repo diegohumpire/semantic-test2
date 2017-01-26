@@ -9,9 +9,9 @@ var ejs = require('ejs');
 var app = express();
 
 // view engine setup
-// app.set('views', path.join(__dirname, 'views_html'));
-// app.set('view engine', 'html');
-// app.engine('.html', ejs.renderFile);
+app.set('views', path.join(__dirname, 'views_html'));
+app.set('view engine', 'html');
+app.engine('.html', ejs.renderFile);
 
 
 // uncomment after placing your favicon in /public
