@@ -20,6 +20,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/manifest.json', express.static(path.join(__dirname, '/public/manifest.json')));
+app.use('/OneSignalSDKWorker.js', express.static(path.join(__dirname, '/public/OneSignalSDKWorker.js')));
+app.use('/OneSignalSDKUpdaterWorker.js', express.static(path.join(__dirname, '/public/OneSignalSDKUpdaterWorker.js')));
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/semantic', express.static(path.join(__dirname, '/semantic/dist/')));
 

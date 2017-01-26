@@ -6,6 +6,18 @@
   <title><%= title %></title>
   <link rel='stylesheet' type='text/css' href='/semantic/semantic.min.css'>
   <link rel='stylesheet' href='/public/css/style.css'>    
+  <link rel="manifest" href="/manifest.json">
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+  <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(["init", {
+      appId: "784307cc-9b49-4b1c-9797-b369841d2ac3",
+      autoRegister: false,
+      notifyButton: {
+        enable: true /* Set to false to hide */
+      }
+    }]);
+  </script>
 </head>
 <body id="App">
   <script>
